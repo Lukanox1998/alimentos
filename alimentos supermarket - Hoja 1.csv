@@ -1,0 +1,51 @@
+ID,Producto,Precio_2024,Precio_2025,Caducidad,Proveedor,Ventas_2024,Ventas_2025
+1,Manzanas,25,28,2025-02-10,FrutasMX,530,610
+2,Plátanos,22,24,2025-01-08,FrutasMX,720,680
+3,Naranjas,26,29,2025-03-02,Cítricos del Sur,690,720
+4,Leche entera,24,27,2024-12-25,LácteosLac,890,910
+5,Leche deslactosada,26,29,2024-12-22,LácteosLac,810,830
+6,Yogur natural,18,20,2025-02-15,LácteosLac,600,650
+7,Huevo blanco,38,42,2025-01-10,GranjaMX,900,940
+8,Huevo rojo,42,45,2025-01-12,GranjaMX,850,880
+9,Pan de caja,34,37,2025-04-10,PanDorado,520,560
+10,Pan dulce,15,17,2024-12-18,PanDorado,400,430
+11,Azúcar,32,36,2026-03-18,AzucareraMX,780,820
+12,Sal,12,14,2027-08-20,SalesUnidas,450,470
+13,Arroz,28,30,2026-05-10,GranosDelNorte,910,940
+14,Frijol negro,32,34,2026-05-14,GranosDelNorte,850,880
+15,Lentejas,30,33,2026-06-22,GranosDelNorte,700,740
+16,Aceite vegetal,48,55,2026-02-10,AceitesMX,680,710
+17,Aceite de oliva,95,105,2026-10-12,AceitesMX,320,340
+18,Mantequilla,48,52,2025-03-15,LácteosLac,510,540
+19,Margarina,34,37,2025-04-18,LácteosLac,470,500
+20,Jabón de pastilla,16,17,2027-10-10,LimpiadoresSA,300,320
+21,Jabón líquido,28,32,2027-12-18,LimpiadoresSA,380,400
+22,Shampoo,42,46,2027-12-20,LimpiadoresSA,410,430
+23,Pasta dental,32,34,2027-11-11,LimpiadoresSA,450,470
+24,Cloro,18,20,2028-02-10,QuímicosPlus,500,530
+25,Suavizante,36,39,2028-01-22,QuímicosPlus,420,440
+26,Arándanos,45,49,2025-02-22,FrutasMX,330,360
+27,Uvas,58,63,2025-03-10,FrutasMX,370,400
+28,Piña,34,38,2025-02-05,FrutasMX,320,340
+29,Papaya,30,33,2025-02-18,FrutasMX,290,310
+30,Mango,22,25,2025-03-05,FrutasMX,360,380
+31,Pasta spaghetti,22,25,2026-08-20,GranosDelNorte,530,560
+32,Atún en lata,19,22,2028-01-20,MarinosSA,670,690
+33,Sardina,18,20,2028-02-10,MarinosSA,420,430
+34,Galletas,28,32,2026-09-20,DulcesMX,510,530
+35,Chocolate en polvo,42,46,2027-06-22,DulcesMX,480,500
+36,Refresco cola,18,20,2026-12-12,BebidasSA,820,840
+37,Refresco naranja,17,20,2026-12-12,BebidasSA,760,790
+38,Agua 1L,14,15,2027-10-10,BebidasSA,900,930
+39,Jugo natural,24,27,2025-08-10,BebidasSA,520,550
+40,Energética,38,42,2027-10-19,BebidasSA,440,460
+41,Café molido,89,95,2027-10-20,CaféDelSur,480,500
+42,Café soluble,75,80,2027-11-10,CaféDelSur,520,540
+43,Té verde,28,30,2028-08-18,InfusionesMX,350,370
+44,Té negro,26,29,2028-08-15,InfusionesMX,300,330
+45,Detergente polvo,38,42,2027-03-10,LimpiadoresSA,460,470
+46,Detergente líquido,42,46,2027-03-12,LimpiadoresSA,420,430
+47,Suero hidratante,22,25,2025-12-22,FarmaciaMX,380,390
+48,Vitaminas,95,105,2027-04-10,FarmaciaMX,210,230
+49,Proteína en polvo,250,270,2027-08-10,FarmaciaMX,80,90
+50,Barritas energéticas,18,21,2026-10-15,FarmaciaMX,310,330
