@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <title>Dashboard Supermercado — Precios y Ventas</title>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
   <script>
+    // 1) Carga la librería corechart (ColumnChart, LineChart, etc.)
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(drawAll);
 
     function drawAll() {
-
-      // DATOS
+      // --- DATOS: cada fila = [Producto, precio2024, precio2025, ventas2024, ventas2025]
       const rows = [
         ["Manzanas",25,28,530,610],
         ["Plátanos",22,24,720,680],
@@ -65,83 +64,71 @@
         ["Barritas energéticas",18,21,310,330]
       ];
 
-      //-----------------------------
-      // 1) Gráfica comparativa colores por producto
-      //-----------------------------
-      function colorAleatorio() {
-        return '#' + Math.floor(Math.random()*16777215).toString(16);
-      }
+      // -----------------------------
+      // Gráfica 1: Precios 2024 vs 2025 (comparativa)
+      // -----------------------------
+      const dt1 = new google.visualization.DataTable();
+      dt1.addColumn('string', 'Producto');
+      dt1.addColumn('number', 'Precio 2024');
+      dt1.addColumn('number', 'Precio 2025');
+      rows.forEach(r => dt1.addRow([r[0], r[1], r[2]]));
 
-      const dtComparativa = new google.visualization.DataTable();
-      dtComparativa.addColumn('string', 'Producto');
-      dtComparativa.addColumn('number', 'Precio 2024');
-      dtComparativa.addColumn({type:'string', role:'style'});
-      dtComparativa.addColumn('number', 'Precio 2025');
-      dtComparativa.addColumn({type:'string', role:'style'});
-
-      rows.forEach(r => {
-        let color1 = colorAleatorio();
-        let color2 = colorAleatorio();
-        dtComparativa.addRow([r[0], r[1], `color: ${color1}`, r[2], `color: ${color2}`]);
+      const chart1 = new google.visualization.ColumnChart(document.getElementById('chart_prices_compare'));
+      chart1.draw(dt1, {
+        title: 'Precios 2024 vs 2025 (todos los productos)',
+        legend: { position: 'top' },
+        height: 400
       });
 
-      const chartComparativa = new google.visualization.ColumnChart(document.getElementById('chart_prices_compare'));
-      chartComparativa.draw(dtComparativa, {
-        title: 'Precios 2024 vs 2025 (colores distintos por producto)',
-        legend: 'top',
-        height: 450
-      });
-
-
-      //-----------------------------
-      // 2) Top 3 más vendidos 2024
-      //-----------------------------
+      // -----------------------------
+      // Gráfica 2: Top 3 vendidos 2024
+      // -----------------------------
       const top2024 = rows.slice().sort((a,b) => b[3] - a[3]).slice(0,3);
       const dt2 = new google.visualization.DataTable();
       dt2.addColumn('string','Producto');
       dt2.addColumn('number','Ventas 2024');
       top2024.forEach(r => dt2.addRow([r[0], r[3]]));
 
-      new google.visualization.ColumnChart(document.getElementById('chart_top2024'))
-        .draw(dt2, {
-          title: 'Top 3 productos más vendidos (2024)',
-          legend: 'none',
-          height: 300,
-          colors: ['#3366CC']
-        });
+      const chart2 = new google.visualization.ColumnChart(document.getElementById('chart_top2024'));
+      chart2.draw(dt2, {
+        title: 'Top 3 productos más vendidos (2024)',
+        legend: { position: 'none' },
+        height: 300,
+        colors: ['#3366CC']
+      });
 
-      //-----------------------------
-      // 3) Top 3 más vendidos 2025
-      //-----------------------------
+      // -----------------------------
+      // Gráfica 3: Top 3 vendidos 2025
+      // -----------------------------
       const top2025 = rows.slice().sort((a,b) => b[4] - a[4]).slice(0,3);
       const dt3 = new google.visualization.DataTable();
       dt3.addColumn('string','Producto');
       dt3.addColumn('number','Ventas 2025');
       top2025.forEach(r => dt3.addRow([r[0], r[4]]));
 
-      new google.visualization.ColumnChart(document.getElementById('chart_top2025'))
-        .draw(dt3, {
-          title: 'Top 3 productos más vendidos (2025)',
-          legend: 'none',
-          height: 300,
-          colors: ['#DC3912']
-        });
+      const chart3 = new google.visualization.ColumnChart(document.getElementById('chart_top2025'));
+      chart3.draw(dt3, {
+        title: 'Top 3 productos más vendidos (2025)',
+        legend: { position: 'none' },
+        height: 300,
+        colors: ['#DC3912']
+      });
 
-      //-----------------------------
-      // 4) Gráfica precios 2025 completos
-      //-----------------------------
+      // -----------------------------
+      // Gráfica 4: Precios de todos los productos (colores)
+      // -----------------------------
       const dt4 = new google.visualization.DataTable();
       dt4.addColumn('string','Producto');
       dt4.addColumn('number','Precio 2025');
       rows.forEach(r => dt4.addRow([r[0], r[2]]));
 
-      new google.visualization.BarChart(document.getElementById('chart_all_prices'))
-        .draw(dt4, {
-          title: 'Precios 2025 — Todos los productos',
-          legend: 'none',
-          height: 600,
-          colors: ['#109618']
-        });
+      const chart4 = new google.visualization.BarChart(document.getElementById('chart_all_prices'));
+      chart4.draw(dt4, {
+        title: 'Precios 2025 — Todos los productos',
+        legend: { position: 'none' },
+        height: 600,
+        colors: ['#109618']
+      });
 
     }
   </script>
@@ -154,13 +141,12 @@
   <div id="chart_prices_compare" style="width:100%;"></div>
 
   <h2>2. Top 3 vendidos en 2024</h2>
-  <div id="chart_top2024" style="width:60%; margin:auto;"></div>
+  <div id="chart_top2024" style="width: 60%; margin:auto;"></div>
 
   <h2>3. Top 3 vendidos en 2025</h2>
-  <div id="chart_top2025" style="width:60%; margin:auto;"></div>
+  <div id="chart_top2025" style="width: 60%; margin:auto;"></div>
 
   <h2>4. Precios 2025 de todos los productos</h2>
   <div id="chart_all_prices" style="width:100%;"></div>
-
 </body>
 </html>
