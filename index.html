@@ -1,55 +1,152 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <title>Dashboard Supermercado — CSV desde GitHub</title>
+  <meta charset="UTF-8">
+  <title>Dashboard de Alimentos</title>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script>
+    google.charts.load('current', {'packages':['corechart','bar','table']});
+    google.charts.setOnLoadCallback(drawAllCharts);
+
+    function drawAllCharts() {
+
+      // DATA EMBEBIDA (convertida a JS desde tu CSV)
+      const dataRows = [
+        ["Manzanas",25,28,530,610],
+        ["Plátanos",22,24,720,680],
+        ["Naranjas",26,29,690,720],
+        ["Leche entera",24,27,890,910],
+        ["Leche deslactosada",26,29,810,830],
+        ["Yogur natural",18,20,670,710],
+        ["Yogur griego",22,25,640,680],
+        ["Pan integral",28,30,780,820],
+        ["Pan blanco",24,27,820,840],
+        ["Arroz blanco",30,32,940,960],
+        ["Arroz integral",32,35,890,920],
+        ["Frijol negro",27,30,850,880],
+        ["Frijol pinto",28,31,830,860],
+        ["Pasta corta",21,24,770,800],
+        ["Pasta larga",22,25,750,780],
+        ["Aceite vegetal",45,48,910,930],
+        ["Aceite de oliva",90,95,640,670],
+        ["Azúcar blanca",24,27,880,900],
+        ["Azúcar morena",26,30,850,870],
+        ["Sal fina",12,14,720,760],
+        ["Sal de mar",15,18,680,690],
+        ["Café molido",110,115,640,670],
+        ["Café instantáneo",95,102,700,720],
+        ["Té negro",28,30,520,550],
+        ["Té verde",30,33,510,530],
+        ["Refresco cola",18,20,960,980],
+        ["Refresco naranja",17,19,880,900],
+        ["Jugo natural",25,28,760,780],
+        ["Agua embotellada",12,14,1020,1040],
+        ["Galletas saladas",22,25,780,800],
+        ["Galletas dulces",24,27,820,850],
+        ["Atún en lata",32,35,980,1000],
+        ["Sardinas lata",28,30,770,800],
+        ["Jamón de pavo",48,52,690,710],
+        ["Jamón de cerdo",46,50,720,740],
+        ["Queso panela",54,58,680,700],
+        ["Queso amarillo",58,62,650,670],
+        ["Huevos",42,46,940,960],
+        ["Mantequilla",38,42,820,840],
+        ["Margarina",34,38,750,780],
+        ["Cereal chocolate",48,52,680,700],
+        ["Cereal natural",44,48,630,650],
+        ["Harina trigo",26,30,710,730],
+        ["Harina hotcakes",28,32,700,720],
+        ["Salsa roja",18,20,820,840],
+        ["Salsa verde",18,20,810,830],
+        ["Catsup",22,25,780,800],
+        ["Mayonesa",28,32,760,780]
+      ];
+
+      // -----------------------------------------
+      // 1. GRÁFICA COMPARATIVA PRECIOS
+      // -----------------------------------------
+      const dataPrecios = new google.visualization.DataTable();
+      dataPrecios.addColumn("string","Producto");
+      dataPrecios.addColumn("number","Precio 2024");
+      dataPrecios.addColumn("number","Precio 2025");
+      dataRows.forEach(r => dataPrecios.addRow([r[0], r[1], r[2]]));
+
+      const chart1 = new google.visualization.ColumnChart(document.getElementById('comparativa'));
+      chart1.draw(dataPrecios,{
+        title:"Comparativa de Precios 2024 vs 2025",
+        legend:{ position:"top" },
+        height:400
+      });
+
+      // -----------------------------------------
+      // 2. TOP 3 VENTAS 2024
+      // -----------------------------------------
+      const ventas2024 = [...dataRows].sort((a,b)=>b[3]-a[3]).slice(0,3);
+      const dataTop24 = new google.visualization.DataTable();
+      dataTop24.addColumn("string","Producto");
+      dataTop24.addColumn("number","Ventas 2024");
+      ventas2024.forEach(r=>dataTop24.addRow([r[0],r[3]]));
+
+      const chart2 = new google.visualization.ColumnChart(document.getElementById('top2024'));
+      chart2.draw(dataTop24,{
+        title:"Top 3 productos más vendidos en 2024",
+        legend:"none",
+        height:300,
+        colors:["#1e90ff"]
+      });
+
+      // -----------------------------------------
+      // 3. TOP 3 VENTAS 2025
+      // -----------------------------------------
+      const ventas2025 = [...dataRows].sort((a,b)=>b[4]-a[4]).slice(0,3);
+      const dataTop25 = new google.visualization.DataTable();
+      dataTop25.addColumn("string","Producto");
+      dataTop25.addColumn("number","Ventas 2025");
+      ventas2025.forEach(r=>dataTop25.addRow([r[0],r[4]]));
+
+      const chart3 = new google.visualization.ColumnChart(document.getElementById('top2025'));
+      chart3.draw(dataTop25,{
+        title:"Top 3 productos más vendidos en 2025",
+        legend:"none",
+        height:300,
+        colors:["#28a745"]
+      });
+
+      // -----------------------------------------
+      // 4. GRÁFICA DE TODOS LOS PRECIOS
+      // -----------------------------------------
+      const dataTodos = new google.visualization.DataTable();
+      dataTodos.addColumn("string","Producto");
+      dataTodos.addColumn("number","Precio 2024");
+      dataTodos.addColumn("number","Precio 2025");
+      dataRows.forEach(r => dataTodos.addRow([r[0], r[1], r[2]]));
+
+      const chart4 = new google.visualization.LineChart(document.getElementById('todos_precios'));
+      chart4.draw(dataTodos,{
+        title:"Precios de todos los productos",
+        legend:{ position:"bottom" },
+        height:450
+      });
+    }
+  </script>
+
 </head>
 <body>
-  <h1>Dashboard — Precios & Ventas</h1>
-  <div id="chart_div" style="width:100%; height:500px;"></div>
 
-<script>
-google.charts.load('current', { packages: ['corechart', 'table'] });
-google.charts.setOnLoadCallback(loadCSV);
+  <h1 style="text-align:center;">Dashboard de Alimentos del Supermercado</h1>
 
-function loadCSV() {
-  // URL RAW del CSV en tu repo
-  const csvUrl = "https://raw.githubusercontent.com/Lukanox1998/alimentos/main/alimentos supermarket - Hoja 1.csv";
+  <h2>1. Comparativa de precios</h2>
+  <div id="comparativa"></div>
 
-  fetch(csvUrl)
-    .then(response => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.text();
-    })
-    .then(text => {
-      const rows = text.trim().split("\n").map(line => line.split(","));
-      // Asumiendo que la primera fila es encabezados
-      const headers = rows.shift();
-      // Crear DataTable
-      const data = new google.visualization.DataTable();
-      // Ajusta nombres y tipos según tus columnas
-      data.addColumn('string', 'Producto');
-      data.addColumn('number', 'Precio_2024');
-      data.addColumn('number', 'Precio_2025');
-      // Ignora columnas extras por simplicidad
-      rows.forEach(r => {
-        const prod = r[1];
-        const p24 = parseFloat(r[2]);
-        const p25 = parseFloat(r[3]);
-        if (!isNaN(p24) && !isNaN(p25)) {
-          data.addRow([prod, p24, p25]);
-        }
-      });
-      // Dibujar gráfico como ejemplo — puedes adaptar
-      const chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-      chart.draw(data, { title: 'Precios 2024 vs 2025', legend: 'top' });
-    })
-    .catch(err => {
-      console.error("Error al cargar CSV:", err);
-      alert("No se pudo cargar el CSV. Revisa la consola.");
-    });
-}
-</script>
+  <h2>2. Top 3 más vendidos en 2024</h2>
+  <div id="top2024"></div>
+
+  <h2>3. Top 3 más vendidos en 2025</h2>
+  <div id="top2025"></div>
+
+  <h2>4. Precios de todos los productos</h2>
+  <div id="todos_precios"></div>
+
 </body>
 </html>
