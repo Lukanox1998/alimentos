@@ -1,79 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard Supermercado</title>
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>
-        google.charts.load('current', { packages: ['corechart', 'table'] });
-        google.charts.setOnLoadCallback(loadData);
-
-        function loadData() {
-
-            const url = "https://raw.githubusercontent.com/Lukanox1998/alimentos/refs/heads/main/alimentos%20supermarket%20-%20Hoja%201.csv";
-
-            fetch(url)
-                .then(response => response.text())
-                .then(csvText => {
-                    const data = new google.visualization.DataTable();
-
-                    // DEFINIR COLUMNAS
-                    data.addColumn('string', 'Producto');
-                    data.addColumn('number', 'Precio 2024');
-                    data.addColumn('number', 'Precio 2025');
-                    data.addColumn('string', 'Caducidad');
-                    data.addColumn('string', 'Proveedor');
-                    data.addColumn('number', 'Ventas 2024');
-                    data.addColumn('number', 'Ventas 2025');
-
-                    // PROCESAR CSV
-                    const lines = csvText.split("\n").slice(1); // quitar encabezado
-
-                    lines.forEach(line => {
-                        if (line.trim() === "") return;
-                        const parts = line.split(",");
-
-                        data.addRow([
-                            parts[0],
-                            Number(parts[1]),
-                            Number(parts[2]),
-                            parts[3],
-                            parts[4],
-                            Number(parts[5]),
-                            Number(parts[6])
-                        ]);
-                    });
-
-                    drawCharts(data);
-                });
-        }
-
-        function drawCharts(data) {
-
-            // ------ GRÁFICA COMPARATIVA ------
-            const chart1 = new google.visualization.ColumnChart(document.getElementById('grafica_comparativa'));
-            chart1.draw(data, {
-                title: 'Comparativa precios 2024 vs 2025',
-                hAxis: { title: 'Producto' },
-                vAxis: { title: 'Precio' },
-                legend: { position: 'top' }
-            });
-
-            // ------ TABLA ------
-            const table = new google.visualization.Table(document.getElementById('tabla_productos'));
-            table.draw(data);
-        }
-    </script>
+  <meta charset="utf-8">
+  <title>Dashboard Supermercado — CSV desde GitHub</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
+  <h1>Dashboard — Precios & Ventas</h1>
+  <div id="chart_div" style="width:100%; height:500px;"></div>
 
-    <h1>Dashboard Supermercado</h1>
+<script>
+google.charts.load('current', { packages: ['corechart', 'table'] });
+google.charts.setOnLoadCallback(loadCSV);
 
-    <h2>Comparativa precios 2024 vs 2025</h2>
-    <div id="grafica_comparativa" style="width: 100%; height: 400px;"></div>
+function loadCSV() {
+  // URL RAW del CSV en tu repo
+  const csvUrl = "https://raw.githubusercontent.com/Lukanox1998/alimentos/main/alimentos supermarket - Hoja 1.csv";
 
-    <h2>Tabla completa de productos</h2>
-    <div id="tabla_productos"></div>
-
+  fetch(csvUrl)
+    .then(response => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.text();
+    })
+    .then(text => {
+      const rows = text.trim().split("\n").map(line => line.split(","));
+      // Asumiendo que la primera fila es encabezados
+      const headers = rows.shift();
+      // Crear DataTable
+      const data = new google.visualization.DataTable();
+      // Ajusta nombres y tipos según tus columnas
+      data.addColumn('string', 'Producto');
+      data.addColumn('number', 'Precio_2024');
+      data.addColumn('number', 'Precio_2025');
+      // Ignora columnas extras por simplicidad
+      rows.forEach(r => {
+        const prod = r[1];
+        const p24 = parseFloat(r[2]);
+        const p25 = parseFloat(r[3]);
+        if (!isNaN(p24) && !isNaN(p25)) {
+          data.addRow([prod, p24, p25]);
+        }
+      });
+      // Dibujar gráfico como ejemplo — puedes adaptar
+      const chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(data, { title: 'Precios 2024 vs 2025', legend: 'top' });
+    })
+    .catch(err => {
+      console.error("Error al cargar CSV:", err);
+      alert("No se pudo cargar el CSV. Revisa la consola.");
+    });
+}
+</script>
 </body>
 </html>
